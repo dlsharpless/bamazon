@@ -7,11 +7,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-require("./routes/html-routes.js");
-require("./routes/api-routes.js");
+const apiRoutes = require("./routes/api-routes.js");
+const htmlRoutes = require("./routes/html-routes.js");
 
-db.sequelize.sync({ force: true }).then(function () {
+app.use(apiRoutes);
+app.use(htmlRoutes);
+
+db.sequelize.sync({}).then(function () {
     app.listen(PORT, function () {
-        console.log("App listening on PORT " + PORT);
+        console.log("Listening on PORT " + PORT);
     });
 });
